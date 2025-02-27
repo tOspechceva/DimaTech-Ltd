@@ -1,15 +1,15 @@
 <template>
-  <ProgressBar></ProgressBar>
+  <PanelProgressbar></PanelProgressbar>
   <div id="app">
     <router-view/>
   </div>
 </template>
 
 <script>
-import ProgressBar from './components/ProgressBar.vue';
+import PanelProgressbar from './components/PanelProgressbar.vue';
 export default {
   name: 'App',
-  components: { ProgressBar },
+  components: { PanelProgressbar },
 };
 </script>
 <style scoped>
