@@ -45,42 +45,60 @@
       </text>
     </svg>
     
-    <!-- Кнопки управления -->
-    <div class="controls">
-      <button @click="decreasePercent">-10%</button>
-      <button @click="increasePercent">+10%</button>
-    </div>
+    
   </div>
 </template>
 
 <script>
 export default {
     name: 'ProgressBar',
-    data() {
-      return {
-          width: 300,
-          height:300,
-          cx: 100, // Центр по X
-          cy: 100, // Центр по Y
-          radius: 90, // Внешний радиус
-          innerRadius: 80, // Внутренний радиус (для кольца)
-          percent: 0, // Процент для дуги
-          warning: false,
-          error: false,
-          speed: 50
-        };
+    props: {
+    width: {
+      type: Number,
+      default: 300,
     },
+    height: {
+      type: Number,
+      default: 300,
+    },
+    cx: {
+      type: Number,
+      default: 100,
+    },
+    cy: {
+      type: Number,
+      default: 100,
+    },
+    radius: {
+      type: Number,
+      default: 90,
+    },
+    innerRadius: {
+      type: Number,
+      default: 80,
+    },
+    percent: {
+      type: Number,
+      default: 0,
+    },
+    warning: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: Boolean,
+      default: false,
+    },
+    speed: {
+      type: Number,
+      default: 50,
+    },
+  },
     computed: {
       // Расчёт пути для дуги
       pathD() {
         const { cx, cy, radius, percent } = this;
         
-        if (percent > 100) {
-          percent = 100;
-        }
-        if (percent < 0) {
-          percent = 0;
-        }
         
         const angle = percent * 3.6; // 1% = 3.6°
         const radians = (angle - 90) * (Math.PI / 180); // Смещение на -90° для старта сверху
