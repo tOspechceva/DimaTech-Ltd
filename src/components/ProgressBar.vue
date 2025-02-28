@@ -34,15 +34,56 @@
       />
       
       <!-- Текст в центре круга -->
-      <text 
-        :x="cx" 
-        :y="cy" 
-        text-anchor="middle" 
-        alignment-baseline="middle" 
-        font-size="20"
-        fill="black">
-        {{ percent }}%
-      </text>
+          <!-- Текст в центре круга -->
+    <text
+      v-if="!warning && !error && percent < 100"
+      :x="cx"
+      :y="cy + 10"
+      text-anchor="middle"
+      font-size="24"
+      fill="black"
+    >
+      {{ percent }}%
+    </text>
+
+    <!-- Галочка при 100% -->
+    <text
+      v-if="percent === 100"
+      :x="cx"
+      :y="cy + 10"
+      text-anchor="middle"
+      font-size="32"
+      fill="green"
+      font-weight="bold"
+    >
+      ✔
+    </text>
+
+        <!-- Восклицательный знак при warning -->
+    <text
+      v-if="warning"
+      :x="cx"
+      :y="cy + 10"
+      text-anchor="middle"
+      font-size="32"
+      fill="orange"
+      font-weight="bold"
+    >
+      !
+    </text>
+
+    <!-- Крест при error -->
+    <text
+      v-if="error"
+      :x="cx"
+      :y="cy + 10"
+      text-anchor="middle"
+      font-size="32"
+      fill="red"
+      font-weight="bold"
+    >
+      ✖
+    </text>
     </svg>
     
     
@@ -134,12 +175,13 @@ export default {
         // Вычисление цвета сектора в зависимости от процента
       pathColor() {
         let hue;
-        if (this.percent <= 25) {
+        if (this.warning) {
+          hue = 20;
+        } else if (this.percent <= 25 || this.error) {
           hue = 8; 
-        } else if(this.percent > 25 && this.percent <= 75) {
+        }  else if(this.percent > 25 && this.percent <= 75) {
           hue = 202; 
-        }
-        else {
+        }else{
           // Плавный переход от синего (240°) к зелёному (120°) на 100%
           hue = 202 - ((this.percent - 75) / 25) * 80; // от 240 до 120
         }
